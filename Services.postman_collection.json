@@ -1,0 +1,122 @@
+{
+	"info": {
+		"_postman_id": "9f352cec-8796-476d-b4e7-94fa56fdc34c",
+		"name": "Services",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28694979"
+	},
+	"item": [
+		{
+			"name": "User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"usuer_4\",\r\n  \"role\": \"admin\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/init_user/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"init_user",
+						""
+					]
+				},
+				"description": "# USER CREATE\n\n**Endpoint**: Inicializar Usuario\n\nDescripción:\n\nEste endpoint permite crear un usuario con un rol predeterminado. Se debe enviar un objeto JSON con los campos requeridos en el cuerpo de la petición.\n\n**URL: POST** /init_user/\n\nParámetros:\n\n- Ninguno.\n    \n\nCuerpo de la solicitud:\n\nSe deben enviar los siguientes campos en formato JSON:\n\n| Campo | Tipo | Descripción | Requerido |\n| --- | --- | --- | --- |\n| username | string | Nombre de usuario único. | Sí. |\n| role | string | Rol asignado al usuario. | Sí. |\n\n#### **Ejemplo de solicitud:**\n\n``` json\n{\n    \"username\": \"kevin123\",\n    \"role\": \"admin\"\n}\n\n ```\n\nEncabezados:  \nNo se requieren encabezados adicionales para esta solicitud.\n\nRespuesta exitosa:  \nCódigo de estado: 201 CREATED\n\nErrores y códigos de estado:\n\n| **Codigo** | **Descripcion** |\n| --- | --- |\n| 201 Create | Se devuelve cuando el usuario fue creado con exito. |\n| 400 Bad Request | Se devuelve cuando el usuario ya existe. |\n| 422 Unprocessable Entity | Se devuelve cuando los campos requeridos no enviados o formato incorrecto |\n\nConsideraciones adicionales:\n\n- Autenticación: No se requiere autenticación para acceder a este endpoint (puede ajustarse según las necesidades de seguridad).\n    \n- Validaciones: Se verifica que el username sea único antes de crear un nuevo usuario.\n    \n- Manejo de errores: El servicio devuelve respuestas claras para facilitar el control de errores en el frontend."
+			},
+			"response": []
+		},
+		{
+			"name": "Chat",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"usuer_1\",\r\n  \"message\": \"¿Cuál es la capital de Francia?\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/ask/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"ask",
+						""
+					]
+				},
+				"description": "# CHATBOT\n\n**Endpoint**: Chat de OPENAI\n\nDescripción:\n\nEste endpoint permite enviar un mensaje al chatbot y obtener una respuesta generada por OpenAI.\n\n**URL: POST** /ask/\n\nParámetros:\n\n- Ninguno.\n    \n\nCuerpo de la solicitud:\n\nSe deben enviar los siguientes campos en formato JSON:\n\n| Campo | Tipo | Descripción | Requerido |\n| --- | --- | --- | --- |\n| username | string | Nombre de usuario que envía el mensaje. | Sí. |\n| role | string | Mensaje enviado al chatbot. | Sí. |\n\n#### **Ejemplo de solicitud:**\n\n``` json\n{\n    \"username\": \"usuario123\",\n    \"message\": \"¿Cuál es el significado de la vida?\"\n}\n\n ```\n\nEncabezados:  \nNo se requieren encabezados adicionales para esta solicitud.\n\nRespuesta exitosa:  \nCódigo de estado: 201 CREATED\n\nErrores y códigos de estado:\n\n| **Codigo** | **Descripcion** |\n| --- | --- |\n| 200 OK | Respuesta generada exitosamente. |\n| 400 Bad Request | El mensaje está vacío. |\n| 404 Not Found | Usuario no encontrado en la base de datos. |\n| 500 Internal Server Error | Error en la llamada a la API de OpenAI. |\n\nConsideraciones adicionales:\n\n- Se requiere autenticación para verificar la existencia del usuario en la base de datos.\n    \n- Es importante manejar correctamente las excepciones de la API de OpenAI para evitar fallos inesperados.\n    \n- Manejo de errores: El servicio devuelve respuestas claras para facilitar el control de errores en el frontend."
+			},
+			"response": []
+		},
+		{
+			"name": "Historial",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/history/usuer_1/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"history",
+						"usuer_1",
+						""
+					]
+				},
+				"description": "# HISTORY BY USER\n\n**Endpoint**: Historial por usuario\n\nDescripción:\n\nEste endpoint permite obtener el historial de mensajes de un usuario registrado.\n\n**URL: GET** /history/{username}\n\nParámetros:\n\n- Path Parameter (username): Nombre del usuario cuyo historial de mensajes se desea consultar..\n    \n\nCuerpo de la solicitud:\n\nEste endpoint no requiere cuerpo de solicitud, ya que el username se pasa como parámetro en la URL.\n\n### **Ejemplo de solicitud:**\n\n```\nGET /history/usuario123 HTTP/1.1\nHost: api.ejemplo.com\n\n ```\n\nStartFragment\n\n### **Respuesta exitosa:**\n\n**Código de estado:** **`200 OK`**  \nEjemplo de respuesta:\n\n``` json\n{\n    \"Success\": True,\n    \"Detail\": \"Historial obtenido exitosamente\",\n    \"Data\": [\n        {\n            \"id\": 1,\n            \"username\": \"usuario123\",\n            \"question\": \"¿Cómo funciona el chatbot?\",\n            \"answer\": \"El chatbot utiliza OpenAI para responder preguntas.\",\n            \"created_at\": \"2024-02-13T15:30:00\"\n        },\n        {\n            \"id\": 2,\n            \"username\": \"usuario123\",\n            \"question\": \"¿Cuál es el clima hoy?\",\n            \"answer\": \"No tengo acceso a datos en tiempo real, pero puedes consultar en un servicio meteorológico.\",\n            \"created_at\": \"2024-02-13T16:00:00\"\n        }\n    ]\n}\n\n ```\n\nErrores y códigos de estado:\n\n| **Codigo** | **Descripcion** |\n| --- | --- |\n| 200 OK | Respuesta generada exitosamente. |\n| 400 Bad Request | El nombre de usuario no puede estar vacío. |\n| 404 Not Found | Usuario no encontrado en la base de datos. |\n| 500 Internal Server Error | Error interno en la consulta a la base de datos. |\n\nConsideraciones adicionales:\n\n- Autenticación: Se recomienda implementar autenticación para verificar la identidad del usuario antes de permitir el acceso a su historial.\n    \n- Manejo de excepciones: Se deben capturar errores inesperados para evitar fallos en la aplicación.\n    \n- Paginación: Si el historial es muy grande, se puede implementar paginación para optimizar la consulta."
+			},
+			"response": []
+		},
+		{
+			"name": "Estado",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/health/\n",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"health",
+						"\n"
+					]
+				},
+				"description": "# HEALTH CHECK\n\n**Endpoint**: Verificar el estado del servicio y la conexión a la base de datos\n\nDescripción:\n\nEste endpoint permite verificar si el servicio está en ejecución y si la base de datos está conectada correctamente.\n\n**URL: GET** /health/\n\nParámetros:\n\n- No se requieren parámetros en la solicitud.\n    \n\nCuerpo de la solicitud:\n\n- No se requieren encabezados adicionales.\n    \n\n### **Ejemplo de solicitud:**\n\n```\nGET /health/ HTTP/1.1\nHost: api.ejemplo.com\n\n ```\n\n### **Ejemplo de** Respuesta exitosa**:**\n\nEjemplo de respuesta cuando el servicio y la base de datos están operativos:\n\n``` json\n{\n    \"Success\": True,\n    \"Detail\": \"El servicio está activo\",\n    \"Database\": \"Conectada\"\n}\n\n ```\n\n### **Ejemplo del error:**\n\n500 Internal Server Error - Fallo en la base de datos\n\n``` json\n{\n    \"Success\": False,\n    \"Detail\": \"Error en la conexión a la base de datos\",\n    \"Error\": \"Descripción del error\"\n}\n\n ```\n\nErrores y códigos de estado:\n\n| **Codigo** | **Descripcion** |\n| --- | --- |\n| 200 OK | El servicio está activo y la base de datos conectada correctamente. |\n| 500 Internal Server Error | Error en la conexión a la base de datos. |\n\nConsideraciones adicionales:\n\n- Uso: Se recomienda utilizar este endpoint como una verificación rápida del estado del servicio, especialmente en entornos de producción o CI/CD.\n    \n- Seguridad: Aunque no devuelve información sensible, se recomienda restringir el acceso a este endpoint para evitar posibles ataques de reconocimiento.\n    \n- Monitoreo: Puede integrarse con herramientas de monitoreo para detectar problemas de disponibilidad o conectividad con la base de datos."
+			},
+			"response": []
+		}
+	]
+}
